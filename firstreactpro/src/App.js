@@ -1,11 +1,10 @@
 import React from 'react';
 
+import Routes from './routes';
+
+// app -> componente raiz da aplicação
 function App() {
-  return (
-    <div className="App">
-      <h1>Hello</h1>
-    </div>
-  );
+  return <Routes />;
 }
 
 export default App;
