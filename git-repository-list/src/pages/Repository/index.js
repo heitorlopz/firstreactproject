@@ -21,9 +21,9 @@ export default class Repository extends Component {
     issues: [],
     loading: true,
     filters: [
-      { state: 'All', label: 'Todas', active: true },
-      { state: 'Open', label: 'Abertas', active: false },
-      { state: 'Closed', label: 'Fechadas', active: false },
+      { state: 'all', label: 'All', active: true },
+      { state: 'open', label: 'Open', active: false },
+      { state: 'closed', label: 'Closed', active: false },
     ],
     filterIndex: 0,
     page: 1,
@@ -42,7 +42,7 @@ export default class Repository extends Component {
       await api.get(`/repos/${repoName}/issues`, {
         params: {
           state: filters.find(f => f.active).state,
-          per_page: 5,
+          per_page: 30,
         },
       }),
     ]);
@@ -63,7 +63,7 @@ export default class Repository extends Component {
     const response = await api.get(`/repos/${repoName}/issues`, {
       params: {
         state: filters[filterIndex].state,
-        per_page: 5,
+        per_page: 30,
         page,
       },
     });
@@ -105,19 +105,20 @@ export default class Repository extends Component {
           <img src={repository.owner.avatar_url} alt={repository.owner.login} />
           <h1>{repository.name}</h1>
           <p>{repository.description}</p>
-
-          <IssueFilter active={filterIndex}>
-            {filters.map((filter, index) => (
-              <button
-                type="button"
-                key={filter.label}
-                onClick={() => this.handleFilterClick(index)}
-              >
-                {filter.state}
-              </button>
-            ))}
-          </IssueFilter>
         </Owner>
+
+        <IssueFilter active={filterIndex}>
+          {filters.map((filter, index) => (
+            <button
+              type="button"
+              key={filter.label}
+              onClick={() => this.handleFilterClick(index)}
+            >
+              {filter.label}
+              <div className="rectangle" />
+            </button>
+          ))}
+        </IssueFilter>
 
         <IssueList>
           {issues.map(issue => (
